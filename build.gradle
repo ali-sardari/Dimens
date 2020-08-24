@@ -2,10 +2,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.novoda:bintray-release:0.9.2'
     }
 }
 
@@ -18,49 +18,51 @@ allprojects {
 
 //=============SDP Task==============================
 
-public class SDPFactory extends DefaultTask {
+class SDPFactory extends DefaultTask {
 
     @Input
     String unit = "dp"
+
     @Input
     double positiveMax = 600
+
     @Input
     double negativeMax = 60
 
     @TaskAction
     def create() {
-        String resFolder = project.getProjectDir().getPath() + "/src/main/res/";
+        String resFolder = project.getProjectDir().getPath() + "/src/main/res/"
         for (double dimen = 300; dimen <= 800; dimen = dimen + 30) {
-            String folder = resFolder + "values-sw" + (int) dimen + "dp";
-            String fileName = folder + "/positive_sdps.xml";
-            new File(folder).mkdir();
-            new File(fileName).createNewFile();
-            PrintWriter printWriter = new PrintWriter(fileName);
-            printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            printWriter.println("<resources>");
+            String folder = resFolder + "values-sw" + (int) dimen + "dp"
+            String fileName = folder + "/positive_sdps.xml"
+            new File(folder).mkdir()
+            new File(fileName).createNewFile()
+            PrintWriter printWriter = new PrintWriter(fileName)
+            printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+            printWriter.println("<resources>")
             for (int i = 1; i <= positiveMax; i++) {
-                double ratio = i / 300d;
-                double sdp = ratio * dimen;
-                printWriter.printf("\t<dimen name=\"_%dsdp\">%.2f" + unit + "</dimen>\r\n", i, sdp);
+                double ratio = i / 300d
+                double sdp = ratio * dimen
+                printWriter.printf("\t<dimen name=\"_%dsdp\">%.2f" + unit + "</dimen>\r\n", i, sdp)
             }
-            printWriter.println("</resources>");
-            printWriter.close();
+            printWriter.println("</resources>")
+            printWriter.close()
         }
         for (double dimen = 300; dimen <= 800; dimen = dimen + 30) {
-            String folder = resFolder + "values-sw" + (int) dimen + "dp";
-            String fileName = folder + "/negative_sdps.xml";
-            new File(folder).mkdir();
-            new File(fileName).createNewFile();
-            PrintWriter printWriter = new PrintWriter(fileName);
-            printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            printWriter.println("<resources>");
+            String folder = resFolder + "values-sw" + (int) dimen + "dp"
+            String fileName = folder + "/negative_sdps.xml"
+            new File(folder).mkdir()
+            new File(fileName).createNewFile()
+            PrintWriter printWriter = new PrintWriter(fileName)
+            printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+            printWriter.println("<resources>")
             for (int i = 1; i <= negativeMax; i++) {
-                double ratio = i / 300d;
-                double sdp = ratio * dimen;
-                printWriter.printf("\t<dimen name=\"_minus%dsdp\">%.2f" + unit + "</dimen>\r\n", i, -sdp);
+                double ratio = i / 300d
+                double sdp = ratio * dimen
+                printWriter.printf("\t<dimen name=\"_minus%dsdp\">%.2f" + unit + "</dimen>\r\n", i, -sdp)
             }
-            printWriter.println("</resources>");
-            printWriter.close();
+            printWriter.println("</resources>")
+            printWriter.close()
         }
     }
 }
@@ -69,23 +71,23 @@ task createSDP(type: SDPFactory) {
 }
 
 createSDP {
-    unit = "dp"//change to "sp" if needed
+    unit = "dp"
     positiveMax = 600//change to 600 or any other value if needed
     negativeMax = 60//change to 600 or any other value if needed
 }
 
-
 //=============SDP Task==============================
-public class SSPFactory extends DefaultTask {
+class SSPFactory extends DefaultTask {
 
     @Input
     String unit = "sp"
+
     @Input
     double positiveMax = 100
 
     @TaskAction
     def create() {
-        String resFolder = project.getProjectDir().getPath() + "/src/main/res/";
+        String resFolder = project.getProjectDir().getPath() + "/src/main/res/"
         for (double dimen = 300; dimen <= 800; dimen = dimen + 30) {
             createPositive(resFolder, dimen)
         }
@@ -93,20 +95,20 @@ public class SSPFactory extends DefaultTask {
     }
 
     private void createPositive(String resFolder, double dimen) {
-        String folder = resFolder + "values-sw" + (int) dimen + "dp";
-        String fileName = folder + "/positive_ssps.xml";
-        new File(folder).mkdir();
-        new File(fileName).createNewFile();
-        PrintWriter printWriter = new PrintWriter(fileName);
-        printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-        printWriter.println("<resources>");
+        String folder = resFolder + "values-sw" + (int) dimen + "dp"
+        String fileName = folder + "/positive_ssps.xml"
+        new File(folder).mkdir()
+        new File(fileName).createNewFile()
+        PrintWriter printWriter = new PrintWriter(fileName)
+        printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+        printWriter.println("<resources>")
         for (int i = 1; i <= positiveMax; i++) {
-            double ratio = i / 300d;
-            double ssp = ratio * dimen;
-            printWriter.printf("\t<dimen name=\"_%dssp\">%.2f" + unit + "</dimen>\r\n", i, ssp);
+            double ratio = i / 300d
+            double ssp = ratio * dimen
+            printWriter.printf("\t<dimen name=\"_%dssp\">%.2f" + unit + "</dimen>\r\n", i, ssp)
         }
-        printWriter.println("</resources>");
-        printWriter.close();
+        printWriter.println("</resources>")
+        printWriter.close()
     }
 }
 
@@ -115,5 +117,5 @@ task createSSP(type: SSPFactory) {
 
 createSSP {
     unit = "sp"
-    positiveMax = 100//change to 600 or any other value if needed
+    positiveMax = 150//change to 600 or any other value if needed
 }

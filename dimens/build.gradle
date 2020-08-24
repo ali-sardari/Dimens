@@ -1,8 +1,24 @@
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 
+
+publish {
+    def groupProjectID = 'com.ui.optimize'
+    def artifactProjectID = 'dimens'
+    def publishVersionID = '1.0.0'
+
+    userOrg = 'Sardari'
+    repoName = 'Dimens'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'An Android SDK that provides a new size unit - sdp (scalable dp) and ssp (scalable sp). This size unit scales with the screen size.'
+    website = 'https://github.com/ali-sardari/Dimens'
+}
+
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         minSdkVersion 16
